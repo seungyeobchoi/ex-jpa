@@ -2,15 +2,28 @@ package hellojpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-        EntityManager entityManager = emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         //이 위치에 코드 작성
-        entityManager.close();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        Member member = new Member();
+
+        member.setId(1L);
+        member.setName("HelloA");
+
+        em.persist(member);
+
+        tx.commit();
+
+        em.close();
 
         emf.close();
 
